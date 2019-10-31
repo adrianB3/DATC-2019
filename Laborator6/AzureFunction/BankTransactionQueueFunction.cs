@@ -38,30 +38,26 @@ namespace AzureFunction
 
 
             // update statistic
-            var entities = bankTransactionRepository.GetAllEntries();
-            var senders = entities.Select(e => e.PartitionKey).Distinct();
 
-            foreach(var sender in senders)
+            var transactions = bankTransactionRepository.GetByPartitionId(deserializedObject.SenderName);
+            var totalAmmount = transactions.Sum(t => t.Ammount);
+            var existingBankTransactionStatistics = bankTransactionStatisticsRepository.GetByPartitionId(deserializedObject.SenderName).FirstOrDefault();
+
+            if(existingBankTransactionStatistics != null)
             {
-                var transactions = bankTransactionRepository.GetByPartitionId(sender);
-                var totalAmmount = transactions.Sum(t => t.Ammount);
-
-                var existingBankTransactionStatistics = bankTransactionStatisticsRepository.GetByPartitionId(sender).FirstOrDefault();
-
-                if(existingBankTransactionStatistics != null)
-                {
-                    existingBankTransactionStatistics.Ammount = totalAmmount;
-                }
-                else
-                {
-                    existingBankTransactionStatistics = new BankTransactionStatistics(Guid.NewGuid().ToString(), sender)
-                    {
-                        Ammount = totalAmmount
-                    };
-                }
-
-                bankTransactionStatisticsRepository.InsertOrUpdateEntry(existingBankTransactionStatistics);
+                existingBankTransactionStatistics.Ammount = totalAmmount;
             }
+            else
+            {
+                existingBankTransactionStatistics = new BankTransactionStatistics(Guid.NewGuid().ToString(), deserializedObject.SenderName)
+                {
+                    Ammount = totalAmmount
+                };
+            }
+
+            bankTransactionStatisticsRepository.InsertOrUpdateEntry(existingBankTransactionStatistics);
+
+            
 
         }
     }
