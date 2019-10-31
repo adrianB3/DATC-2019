@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=datcjoi800;AccountKey=OR8OdO+x18rLrZllupXTyl0dkk38Ul9/BWti2SurGQ/l9PT6UfyiFB7kweOkTrvsMXRXZlwERtnIp4mDIy0yDQ==;EndpointSuffix=core.windows.net",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "ConnectionStringKey": "Endpoint=sb://datcjoi800.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=a0tI3/ORNydmuZ6YVpZVNnvuKlt3NbBWq50iGYFrkQo=    "
+  },
+  "extensionBundle": {
+        "id": "Microsoft.Azure.Functions.ExtensionBundle",
+        "version": "[1.*, 2.0.0)"
+    }
+}
